@@ -1,0 +1,8 @@
+sudo: false
+language: scala
+script:
+  - sbt ++$TRAVIS_SCALA_VERSION jUnitMixinPluginTest/test
+scala:
+  - 2.12.0-M4
+jdk:
+  - oraclejdk8
