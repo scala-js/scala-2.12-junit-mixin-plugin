@@ -1,8 +1,14 @@
 sudo: false
 language: scala
 script:
+  - git clone https://github.com/scala/scala.git
+  - cd scala
+  - git checkout 2.12.x
+  - sbt publishLocal
+  - cd ..
+  - sbt ++$TRAVIS_SCALA_VERSION jUnitMixinPlugin/scalastyle jUnitMixinPluginTest/scalastyle
   - sbt ++$TRAVIS_SCALA_VERSION jUnitMixinPluginTest/test
 scala:
-  - 2.12.0-M4
+  - 2.12.0-SNAPSHOT
 jdk:
   - oraclejdk8
