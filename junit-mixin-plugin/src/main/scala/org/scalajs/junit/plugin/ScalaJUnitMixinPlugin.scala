@@ -7,6 +7,9 @@ import scala.tools.nsc.plugins.{
 
 class ScalaJUnitMixinPlugin(val global: Global) extends NscPlugin {
 
+  // Disable the warnings emitted during mixin
+  global.settings.nowarnDefaultJunitMethods.tryToSet(List("true"))
+
   val name: String = "Scala 2.12 JUnit mixin plugin"
 
   val components: List[NscPluginComponent] =
