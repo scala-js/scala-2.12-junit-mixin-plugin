@@ -25,7 +25,7 @@ class ScalaJUnitMixinPlugin(val global: Global) extends NscPlugin {
 
     val phaseName: String = "junit-make-mixin-bridges"
     val runsAfter: List[String] = List("mixin")
-    override val runsBefore: List[String] = List("cleanup")
+    override val runsBefore: List[String] = List("cleanup", "junit-inject")
 
     protected def newTransformer(unit: CompilationUnit): Transformer =
       new ScalaJUnitMixinPluginTransformer
