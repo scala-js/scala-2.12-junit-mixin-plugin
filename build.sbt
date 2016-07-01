@@ -23,7 +23,36 @@ lazy val `scala-junit-mixin-plugin` = project.in(file("junit-mixin-plugin")).
   settings(
     crossVersion := CrossVersion.full,
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    exportJars := true
+    exportJars := true,
+
+    publishMavenStyle := true,
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
+    pomExtra := (
+        <developers>
+          <developer>
+            <id>nicolasstucki</id>
+            <name>Nicolas Stucki</name>
+            <url>https://github.com/nicolasstucki/</url>
+          </developer>
+          <developer>
+            <id>sjrd</id>
+            <name>Sébastien Doeraene</name>
+            <url>https://github.com/sjrd/</url>
+          </developer>
+          <developer>
+            <id>gzm0</id>
+            <name>Tobias Schlatter</name>
+            <url>https://github.com/gzm0/</url>
+          </developer>
+        </developers>
+    ),
+    pomIncludeRepository := { _ => false }
   )
 
 lazy val testSuite = project.in(file("junit-mixin-plugin-test")).
