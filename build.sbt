@@ -18,22 +18,46 @@ val commonSettings: Seq[Setting[_]] = Seq(
 val isGeneratingEclipse =
   Properties.envOrElse("GENERATING_ECLIPSE", "false").toBoolean
 
-lazy val jUnitMixinPlugin = Project(
-  id = "jUnitMixinPlugin",
-  base = file("junit-mixin-plugin"),
-  settings = commonSettings ++ Seq(
-    name := "JUnit mixin support Scala for Scala 2.12.",
+lazy val `scala-junit-mixin-plugin` = project.in(file("junit-mixin-plugin")).
+  settings(commonSettings).
+  settings(
     crossVersion := CrossVersion.full,
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    exportJars := true
-  )
-)
+    exportJars := true,
 
-lazy val testSuite = Project(
-  id = "jUnitMixinPluginTest",
-  base = file("junit-mixin-plugin-test"),
-  settings = commonSettings ++ Seq(
-    name := "Tests for JUnit mixin support Scala for Scala 2.12.",
+    publishMavenStyle := true,
+    publishTo := {
+      val nexus = "https://oss.sonatype.org/"
+      if (isSnapshot.value)
+        Some("snapshots" at nexus + "content/repositories/snapshots")
+      else
+        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    },
+    pomExtra := (
+        <developers>
+          <developer>
+            <id>nicolasstucki</id>
+            <name>Nicolas Stucki</name>
+            <url>https://github.com/nicolasstucki/</url>
+          </developer>
+          <developer>
+            <id>sjrd</id>
+            <name>Sébastien Doeraene</name>
+            <url>https://github.com/sjrd/</url>
+          </developer>
+          <developer>
+            <id>gzm0</id>
+            <name>Tobias Schlatter</name>
+            <url>https://github.com/gzm0/</url>
+          </developer>
+        </developers>
+    ),
+    pomIncludeRepository := { _ => false }
+  )
+
+lazy val testSuite = project.in(file("junit-mixin-plugin-test")).
+  settings(commonSettings).
+  settings(
     libraryDependencies +=
       "com.novocode" % "junit-interface" % "0.9" % "test",
     testOptions +=
@@ -42,9 +66,8 @@ lazy val testSuite = Project(
       if (isGeneratingEclipse) {
         Seq.empty
       } else {
-        val jar = (packageBin in (jUnitMixinPlugin, Compile)).value
+        val jar = (packageBin in (`scala-junit-mixin-plugin`, Compile)).value
         Seq(s"-Xplugin:$jar")
       }
     }
   )
-)
