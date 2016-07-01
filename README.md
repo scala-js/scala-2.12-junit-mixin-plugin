@@ -19,7 +19,7 @@ Simply add the following to your project settings:
 ```scala
 libraryDependencies ++= {
   if (scalaVersion.value.startsWith("2.12."))
-    Seq(compilerPlugin("org.scala-js" % "scala-junit-mixin-plugin" % "0.0.1-SNAPSHOT" cross CrossVersion.full))
+    Seq(compilerPlugin("org.scala-js" % "scala-junit-mixin-plugin" % "0.1.0" cross CrossVersion.full))
   else
     Seq.empty
 }

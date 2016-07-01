@@ -1,7 +1,7 @@
 import scala.util.Properties
 
 val commonSettings: Seq[Setting[_]] = Seq(
-  version := "0.0.1-SNAPSHOT",
+  version := "0.1.0",
   organization := "org.scala-js",
   scalaVersion := "2.12.0-M5",
   scalacOptions ++= Seq("-deprecation", "-feature", "-Xfatal-warnings"),
