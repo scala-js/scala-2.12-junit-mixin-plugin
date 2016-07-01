@@ -3,7 +3,7 @@ import scala.util.Properties
 val commonSettings: Seq[Setting[_]] = Seq(
   version := "0.0.1-SNAPSHOT",
   organization := "org.scala-js",
-  scalaVersion := "2.12.0-SNAPSHOT",
+  scalaVersion := "2.12.0-M5",
   scalacOptions ++= Seq("-deprecation", "-feature", "-Xfatal-warnings"),
 
   homepage := Some(url("http://scala-js.org/")),
