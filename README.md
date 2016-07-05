@@ -17,11 +17,30 @@ As the warning tells you, this will be fixed if you upgrade to JUnit 5 ... excep
 Simply add the following to your project settings:
 
 ```scala
+/* The `test-plugin` configuration adds a plugin only to the `test`
+ * configuration. It is a refinement of the `plugin` configuration which adds
+ * it to both `compile` and `test`.
+ */
+ivyConfigurations += config("test-plugin").hide
+scalacOptions in Test ++= {
+  val report = update.value
+  val jars = report.select(configurationFilter("test-plugin"))
+  for {
+    jar <- jars
+    jarPath = jar.getPath
+    // This is a hack to filter out the dependencies of the plugins
+    if jarPath.contains("plugin")
+  } yield {
+    s"-Xplugin:$jarPath"
+  }
+}
+
+// Add the scala-junit-mixin-plugin to the test configuration when on 2.12
 libraryDependencies ++= {
-  if (scalaVersion.value.startsWith("2.12."))
-    Seq(compilerPlugin("org.scala-js" % "scala-junit-mixin-plugin" % "0.1.0" cross CrossVersion.full))
-  else
+  if (scalaVersion.value.startsWith("2.10.") || scalaVersion.value.startsWith("2.11."))
     Seq.empty
+  else
+    Seq("org.scala-js" % "scala-junit-mixin-plugin" % "0.1.0" % "test-plugin" cross CrossVersion.full)
 }
 ```
 
