@@ -1,3 +1,8 @@
+# Notice of obsolescence
+
+As of Scala 2.12.0-RC1, this plugin is obsolete,
+thanks to [scala/scala#5369](https://github.com/scala/scala/pull/5369).
+
 # scala-2.12-junit-mixin: restore your JUnit `@Test` methods in traits
 
 [![Build Status](https://travis-ci.org/scala-js/scala-2.12-junit-mixin-plugin.svg?branch=master)](https://travis-ci.org/scala-js/scala-2.12-junit-mixin-plugin)
